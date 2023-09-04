@@ -1,0 +1,96 @@
+<div class="modal-body  details-body">
+    <form id="frmSendMail" action="" method="POST" class="form-horizontal ng-pristine ng-valid">
+    <div class="form-group">
+        <label required for="from_name" class=" col-sm-2 required">From name</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="from_name" name="from_name" type="text" value="Priyank" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="from_email_address" class="col-sm-2 required">From email address</label>
+        <div class="col-sm-4" >
+            <input class="form-control mail-to-user" id="from_email_address" name="from_email_address" type="text" value="" required data-rule-email="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="smtp_server" class="control-label col-sm-2 required">SMTP Server</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="smtp_server" name="smtp_server" type="text" value="smtp.gmail.com" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="port_number" class="control-label col-sm-2 required">PORT</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="port_number" name="port_number" type="number" value="465" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="req_authontication" class="control-label col-sm-2 required">Required authontication</label>
+        <div class="col-sm-4" >
+            <input type="checkbox" class="checkbox-margin " id="req_authontication" name="req_authontication" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="enable_ssl" class="control-label col-sm-2 required">Enable SSl</label>
+        <div class="col-sm-4" >
+            <input type="checkbox" class="checkbox-margin " id="enable_ssl" name="enable_ssl" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="username" class="control-label col-sm-2 required">Username</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="username" name="username" type="text" value="" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="password" class="control-label col-sm-2 required">Password</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="password" name="password" type="password" value="" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="outgoing_mail" class="control-label col-sm-2">BCC For outgoing mail</label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="outgoing_mail" name="outgoing_mail" type="text" value="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label required for="send_to_email" class="control-label col-sm-2 required">Send To </label>
+        <div class="col-sm-4" >
+            <input class="form-control" id="send_to_email" name="send_to_email" type="text" value="" required="" data-rule-email="true"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="modal-footer mail-footer" id="footer">
+            <button type="button" onclick="sendMail()" class="btn btn-primary">Send mail</button>
+        </div>
+    </div>
+     </form>
+</div>
+
+<script>
+     function sendMail() {
+        
+
+        var postData = {
+                 'from_name' : $('#from_name').val(),
+                 'from_email_address' : $('#from_email_address').val(),
+                 'smtp_server' : $('#smtp_server').val(),
+                 'port_number' : $('#port_number').val(),
+                 'req_authontication' : $('#req_authontication').val(),
+                 'enable_ssl' : $('#enable_ssl').is(':checked'),
+                 'username' : $('#username').val(),
+                 'password' : $('#password').val(),
+                 'outgoing_mail' : $('#outgoing_mail').val(),
+                 'send_to_email' : $('#send_to_email').val(),
+         }
+        if( $('#frmSendMail').valid()){
+            sparrow.post("/mails/test_mail/", postData , true, function(data) {
+
+             }); 
+        }
+    }
+    
+</script>
+
+

@@ -1,0 +1,81 @@
+.gantt-scrollable > div {
+    height: inherit;
+}
+.gantt-side {
+    width: 150px; 
+}
+.gantt-header-columns {
+    height: inherit;
+}
+.container-content {
+    margin: 10px;
+}
+
+.top-buffer {
+    margin-top: 8px;
+}
+
+.navbar-right-spacing {
+    margin-right: 160px;
+}
+
+.ele-center {
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-34px;
+    margin-top:-26px;
+    z-index: 99999999;
+}
+
+#loading-image {
+    /*width:68px;
+    height:53px;*/
+    display: none;
+}
+
+.alert-danger {
+  padding: 8px;
+  margin-bottom: 0px;
+  color: #E9EDEF;
+  background-color: rgba(231, 76, 60, 0.88);
+  border-color: rgba(231, 76, 60, 0.88);
+}
+
+.form-horizontal .control-label {
+  padding-top: 0px !important;
+  text-align:left;
+}
+
+.form-horizontal .form-group {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+svg path {
+  stroke-width:1;
+}
+/*.gantt-row-height {
+    height: 3em;
+}*/
+.gantt-task {
+    height: 60%;
+}
+.gantt-task-content > span {
+    line-height: 1.7em;
+    font-size: 12px;
+}
+
+.required {
+    color:#A57373;
+}
+
+.form-group {
+  margin: 0 0 10px 0;
+}
+
+.gantt-task-overlaps {
+  border: 2px solid yellow;
+  }
+
+label {margin-top: 3px !important;}

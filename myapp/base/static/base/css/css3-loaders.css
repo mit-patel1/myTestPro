@@ -1,0 +1,114 @@
+/* Variables */
+/* Base */
+
+.loader {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative; 
+}
+
+.loader-double {
+  border-radius: 50px;
+  border: 6px solid transparent;
+  border-top-color: #2980b9;
+  border-bottom-color: #2980b9;
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite; 
+}
+
+.loader-double:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  bottom: 5px;
+  right: 5px;
+  border-radius: 50px;
+  border: 6px solid transparent;
+  border-top-color: #2980b9;
+  border-bottom-color: #2980b9;
+  opacity: 0.6;
+  -webkit-animation: spinreverse 2s linear infinite;
+  -moz-animation: spinreverse 2s linear infinite;
+  animation: spinreverse 2s linear infinite; 
+}
+
+/* Animations */
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg); 
+  }
+
+  to {
+    -webkit-transform: rotate(360deg); 
+  } 
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg); 
+  }
+
+  to {
+    -moz-transform: rotate(360deg); 
+  } 
+}
+
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); 
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); 
+  } 
+}
+
+@-webkit-keyframes spinreverse {
+  from {
+    -webkit-transform: rotate(0deg); 
+  }
+
+  to {
+    -webkit-transform: rotate(-360deg); 
+  } 
+}
+
+@-moz-keyframes spinreverse {
+  from {
+    -moz-transform: rotate(0deg); 
+  }
+
+  to {
+    -moz-transform: rotate(-360deg); 
+  } 
+}
+
+@keyframes spinreverse {
+  from {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); 
+  }
+
+  to {
+    -webkit-transform: rotate(-360deg);
+    -moz-transform: rotate(-360deg);
+    -ms-transform: rotate(-360deg);
+    -o-transform: rotate(-360deg);
+    transform: rotate(-360deg); 
+  } 
+}

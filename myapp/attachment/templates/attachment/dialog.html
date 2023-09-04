@@ -1,0 +1,73 @@
+{% csrf_token %}   
+<style type="text/css">
+  .atta-dt .fa {
+    font-size: 17px;
+    cursor: pointer;
+  }
+</style>
+
+<div class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{[{title}]}</h4>
+      </div>
+      <div class="modal-body">        
+
+        <div class="form-group">          
+          <form id="frmAttachment" action="/attachment/upload_attachment/0/" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data">        
+            <div class="col-sm-4"><input class="form-control" id="package_file" name="file" style="height: auto;" required="" type="file" required=""></div>
+            <!-- <div class="col-sm-4">
+                <select name="file_type" id="id_file_type" class="form-control">
+                  {% for file_type in file_types %}
+                     <option value="{{ file_type.id }}" >{{ file_type.description }}</option>
+                  {% endfor %}
+                </select>
+            </div> -->
+            <div class="col-sm-4">
+              <button type="button" ng-click="uploadfile()" class="btn btn-primary">Upload file</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-group">            
+          <table class="row-border hover dataTable atta-dt">      
+            <thead>
+              <tr>
+                  <th>Name</th>
+                  <th width="10%">Size</th>
+                  <th width="15%">Type</th>
+                  <th width="20%">Uploaded By</th>
+                  <th  width="15%">Uploaded On</th>
+                  <th></th>
+                  <th></th>
+               </tr>
+            </thead>    
+              <tbody>          
+              <tr ng-repeat="attachment in attachments">
+                <td><a href="/attachment/dwn_attachment/?uid={[{attachment.uid}]}&a={[{appName}]}&m={[{modelName}]}" target="_blank"> {[{attachment.name}]} </a></td>
+                <td>{[{attachment.size}]}</td>
+                <td>{[{attachment.file_type}]}</td>
+                <td>{[{attachment.user}]}</td>
+                <td>{[{attachment.date}]}</td>
+                <td>                  
+                  <div class="pull-right"><a href="/attachment/dwn_attachment/?uid={[{attachment.uid}]}&a={[{appName}]}&m={[{modelName}]}" target="_blank"><i class="icon-file-download"></i></a></div>
+                </td>                                
+                <td width="1%"><div class="pull-right" ng-click='delete(this)') ref="{[{attachment.uid}]}"><i class="icon-trash"></i></div></td>                                
+              </tr>              
+            </tbody>
+          </table>
+
+          <div id="noData" >{[{noData}]}</div>
+        </div>
+
+        <div id="msg"></div>
+
+      </div>
+      <div class="modal-footer">        
+        <button type="button" ng-click="cancel()" class="btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

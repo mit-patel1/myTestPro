@@ -1,0 +1,250 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+
+<script>
+    $(function (){
+        $('.favourite_icon').hide();
+        $('#basePageTitle').text("");
+        $('.button-bar').hide();
+    });
+</script>
+<style>
+	.otro-blockquote {
+		font-size: 1.8em;
+		width: 60%;
+		margin: 50px auto;
+		font-family: Verdana, sans-serif;
+		font-style: italic;
+		color: #3c846c;
+		padding: 1.2em 30px 1.2em 75px;
+		border-left: 8px solid #78C0A8;
+		line-height: 1.6;
+		position: relative;
+		background: white;
+	}
+
+	.otro-blockquote::before {
+		font-family: Arial;
+		content: "\201C";
+		color: #78C0A8;
+		font-size: 4em;
+		position: absolute;
+		left: 10px;
+		top: -10px;
+	}
+
+	.otro-blockquote::after {
+		content: '';
+	}
+
+	.otro-blockquote .quote-author {
+		display: block;
+		color: #333333;
+		font-style: normal;
+		font-weight: bold;
+		margin-top: 1em;
+	}
+
+	.quote-header {
+		font-size: 2.4em;
+		width: 100%;
+		margin: auto;
+		font-family: Verdana, sans-serif;
+		color: #555555;
+		position: relative;
+		white-space: nowrap;
+		text-align: center;
+	}
+</style>
+<div class="container-fluid">
+	<div class="col-md-12 dashboard" >
+		<h1 class="quote-header">Thank you for being a part of the PCB Power Market family. </h1>
+		<blockquote class="otro-blockquote">{{quote_info.quote}}
+			<span class="quote-author">{{quote_info.author}}</span>
+		</blockquote>
+
+			<!-- <div class="col-md-2 first-three-div"  >
+				<p class="customer">Customers</p>
+				<a href="#/partners/partners/customer">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/customers.svg" height="93px" style="margin-top:-10px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/partners/partner/customer/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/partners/partners/customer">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div" >
+				<p class="customer">Sales inquiries</p>
+				<a href="#/sales/orders/quotations/?state=draft">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/inq.svg" height="90px">	
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/sales/order/0/0?type=draft">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/sales/orders/quotations/?state=draft">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+				</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Sales orders</p>
+				<a href="#/sales/orders/sale/?state=pending">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/sales.svg" height="85px" style="margin-left: -10px;">	
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/sales/order/0/0?type=sale">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/sales/orders/sale/?state=pending">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Shipments</p>
+				<a href="#/logistics/shipments/?pending">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/shipments.svg" height="85px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/logistics/shipment/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/logistics/shipments/?pending">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols" >
+					</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Customer invoices</p>
+				<a href="#/financial/ready_to_invoice">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/invoice.svg"height="85px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/financial/invoice/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/financial/ready_to_invoice">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>			 	  -->
+	</div>
+	<!-- <div class="col-md-12 dashboard">
+			<div class="col-md-2 first-three-div"  >
+				<p class="customer">Purchase inquiries</p>
+				<a href="#/purchasing/orders/inquiries/?state=draftrfq">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/inq.svg" height="93px" style="margin-top:-10px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/purchasing/order/draftrfq/0/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/purchasing/orders/inquiries/?state=draftrfq">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div" >
+				<p class="customer">Purchase orders</p>
+				<a href="#/purchasing/orders/purchase/?state=pending">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/sales.svg" height="90px" style="margin-left: -10px;">	
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/purchasing/order/purchase/0/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/purchasing/orders/purchase/?state=pending">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+				</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Receipts</p>
+				<a href="#/logistics/receipts/?pending">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/shipments.svg" height="85px">	
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/logistics/receipt/0">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/logistics/receipts/?pending">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Manufacturing orders</p>
+				<a href="#/production/mfg_orders/?pending">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/traveler.svg" height="85px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="/#/production/mfg_order/0/">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/production/mfg_orders/?pending">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols">
+					</span>
+					</a>
+				</div>
+			</div>			 	
+			<div class="col-md-2 first-three-div">
+				<p class="customer">Supplier invoices</p>
+				<a href="#/financial/ready_to_invoice/supplier">
+				<div class="app_icons">
+					<img src="/static/base/images/shortcut-icons/invoice.svg" height="85px">
+				</div>
+				</a>
+				<div class="icons">
+					<a href="#/financial/ready_to_invoice/supplier">
+						<span class="icon-plus-circle addNewPlusSymbols">
+						</span>
+					</a>
+					<a href="#/financial/ready_to_invoice/supplier">
+					<span class="icon-hamburger-menu-1 addNewhamburgerSymbols" >
+					</span>
+					</a>
+				</div>
+			</div>
+	</div> -->
+</div>
+</html>

@@ -1,0 +1,150 @@
+{% csrf_token %}   
+<style type="text/css">
+  .atta-dt .fa {
+    font-size: 17px;
+    cursor: pointer;
+  }
+  .radio-inline{
+    margin:0 20px 0 0;
+  }
+  .table-parent .form-group{
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+  .mail_body{
+    padding: 0;
+  }
+  .table-parent{
+    padding: 15px;
+  }
+  .table-parent .panel{
+    margin-bottom: 0;
+  }
+  .mail-attachment{
+  width: 60%;
+  border: 1px solid #cccccc;
+  height: 30px;
+  background: #f5f5f5;
+  margin-bottom: 10px;
+  border-radius: 0px;
+  }
+  .mail-attachment span{
+  vertical-align: sub;
+  display: inline-block;
+  padding-left: 5px;
+  color: #0000ff;
+  }
+  .mail-attachment i{
+  float: right;
+  margin-top: 7px;
+  margin-right: 5px;
+  cursor: pointer;
+  }
+  .attachFiles .attachments {
+  width: 110px;
+  text-align: center;
+  display: inline-block;
+  margin: 5px 5px;
+  max-height: 130px;
+  max-width: 110px;
+}
+.attachments-image {
+    background-color: #ccc;
+    padding: 5px 5px;
+    width: 100px;
+    height: 60px;
+    max-height: 60px;
+    max-width: 100px;
+    vertical-align: middle;
+  }
+
+  offlinemessages…v=30.4.12:2384
+  .outer-box {
+      position: relative;
+  }
+  .attachments-image img {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    max-width: 90px;
+    max-height: 60px;
+    border-radius: 0%;
+  }
+  .attachFiles .attachments .fle-info {
+    width: 100px;
+    max-width: 100px;
+    text-align: center;
+    padding: 5px 5px;
+    line-height: 15px!important;
+  }
+</style>
+<div class="modal fade">
+  <div class="modal-dialog modal-lg" style="width:60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{[{title}]}</h4>
+      </div>
+      <div class="modal-body mail_body">
+        <div class="header">
+        </div>
+        <div class="table-parent" id="data-body" >
+        <form id="frmSendMail" action="#" method="POST" role="form" class="mail-from-sendmail form-horizontal" enctype="multipart/form-data">
+            <div class="form-group">
+                <label required for="toUser" class="control-label col-sm-1 required">To</label>
+                <div class="col-sm-11" style="padding-right: 0;">
+                    <input class="form-control mail-to-user" id="toUser" name="toUser" type="text"  ng-model ="toEmails" required data-rule-email="true"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label required for="cc" class="control-label col-sm-1">CC</label>
+                <div class="col-sm-11" style="padding-right: 0;">
+                    <input class="form-control" id="ccUser" name="ccUser" type="text"  ng-model ="cc_mails"/>
+                </div>
+            </div>
+            <!-- <div class="form-group">
+                <label required for="bccUser" class="control-label col-sm-1">Bcc</label>
+                <div class="col-sm-11" style="padding-right: 0;">
+                    <input class="form-control" id="bccUser" name="bccUser" type="text" value="" />
+                </div>
+            </div> -->
+            <div class="form-group">
+                <label required for="subject" class="control-label col-sm-1 required">Subject</label>
+                <div class="col-sm-11" style="padding-right: 0;">
+                    <input class="form-control mail-subject" id="subject" name="subject" type="text" value="" required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label required for="msg" class="control-label col-sm-1 required">Message</label>
+                <div class="col-sm-11" style="padding-right: 0;">
+                    <textarea id="msg" class="richtext" rows="6" name="msg" value="" style="height: 200px;"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-sm-11" style="padding-right: 0;">
+                    <div>
+                        <label>Attachment(s)</label>
+                    </div>
+                    <div id="attachmentList">
+                    </div>
+                </div>
+                <div class="col-md-offset-1 col-sm-11" id="fileUploadParent" style="padding-right: 0;">
+                    <input class="form-control" id="mail_attachment" name="attachment" type="file">
+                </div>
+            </div> 
+        
+        <div class="row" style="display: flex;" onmousedown="return false">
+            <div id="mail_link_pdf" class="mail-link-pdf mail-link" style="padding-left: 86px;font-size: 12px;"></div> 
+            <div id="mail_link_excel" class="mail-link-excel mail-link" style="padding-left: 10px;font-size: 12px;"></div> 
+        </div>
+          <div id="msgPost"></div>
+        </div>
+      </form>
+      <div class="modal-footer mail-footer" id="footer">
+        <button type="button" ng-click="send()" id="btnSendMail" class="btn btn-primary" >{[{btnText}]}</button>
+        <button type="button" ng-click="cancel()" class="btn">Cancel</button>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

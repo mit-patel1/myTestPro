@@ -1,0 +1,26 @@
+<style type="text/css">
+	.filterClass a:hover{
+        text-decoration: underline;
+    }
+</style>
+<div class="lst-container">
+    <div style="width: 84%;float:left;">
+        <form autocomplete="off">
+            <nit-advanced-searchbox
+                    ng-model="searchParams1"
+                    parameters="availableSearchParams1"
+                    index = "1"
+                    placeholder="Search...">
+            </nit-advanced-searchbox>
+        </form>
+    </div>
+    <div class="filterClass" style="float:right;margin-top: 16px;">
+        <a href=""><span id="idMyfavreport" >Favourite reports</span></a> |
+    <a href=""><span id="idAllreport" style="text-decoration: underline;">All reports</span></a>
+    </div>
+    <div id="gridCon">
+        <table datatable dt-options="dtOptions1" dt-columns="dtColumns1" dt-instance="dtInstance1" class="row-border hover"></table>
+    </div>
+</div>    
+
+

@@ -1,0 +1,35 @@
+{% load app_filters %}
+
+<style media="screen">
+.version-header {
+    padding: 10px;
+    padding-left: 0px;
+    font-size: 16px;
+}
+.latest-header-version {
+    font-weight: bold; 
+    font-size: 18px;
+}
+.release-date {
+    font-size: 14px;
+    float: right;
+    font-weight: normal;
+}
+.release-body {
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+}
+.latest-release-body {
+    font-size: 14px;
+}
+</style>
+
+{% for release_note in release_notes %}
+    <div class="version-header {% if latest_version_id == release_note.id %} latest-header-version {% endif %}">
+        What's new in version {{ release_note.version }}? 
+        <span class="release-date">Release date : {{ release_note.created_on | date:'dS M Y'}}</span>
+    </div>
+    <div class="release-body {% if latest_version_id == release_note.id %} latest-release-body {% endif %}">
+        {{ release_note.note | safe}}
+    </div>
+{% endfor %}

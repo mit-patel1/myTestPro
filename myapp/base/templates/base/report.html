@@ -1,0 +1,126 @@
+{% load app_filters %}
+{% load staticfiles %}
+<script src="{% static 'base/js/jquery.tablesorter.min.js' %}?v=0.1"></script>
+<div class="lst-container">
+    <div class="col-sx-3">
+    <form class="from-group" id="reportsForm" method="POST" role="form">
+    {% csrf_token %}
+            {% if conditions  or is_table == True %}
+            <div class = "col-sm-12" style="padding: 5px;">
+                <div id = "id_condition">
+                {% if date_module == True %}
+                    <div id="id_start_datepicker" style="background: #fff; cursor: pointer; padding: 9px 10px; border: 1px solid #ccc;float: left;">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                         <span id="dates"></span> <b class="caret"></b>
+                    </div>
+                {% endif %}    
+                {% for query in conditions %}                     
+                    {% if 'date' not in query %}
+                        {% if 'worker_id' in query %}
+                        <b style="padding-left: 5px;display: none;">{{ query }} : </b>
+                        <input style = "display: none;" class="form-control" id="id_text_query" type="text" name="{{ query }}" required/>
+                        {% else %}
+                        <b style="padding-left: 5px; ">{{ query }} : </b>
+                        <input class="form-control" id="id_text_query" type="text" name="{{ query }}" required/>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                </div>
+            
+                {% endif %}
+                {% if code in 'leave_bal' or  code in 'prod_cat'%}
+                <div class="col-sm-8">
+                    <label for="id_date_range" class="control-label col-sm-2" required>Select year</label>
+                    <div class="col-sm-2">
+                        <input  class="form-control" id="id_date_range" name="date_range"  type="text" value='[{{2019}}]' >
+                    </div>
+                    <label for="id_worker" class="control-label col-sm-1" required>Employee</label>
+                    <div class="col-sm-3">
+                        <input  class="form-control" id="id_worker" name="worker"  type="text" >
+                    </div>
+                    <button style="text-align:right;margin-top: 5px;" type="button" class="btn btn-primary btn-sm" id="id_load_btn" ng-click="onLoad($event)">Load</button>
+                </div>
+                {% endif %}
+                <div class='date_range col-sm-5' style="margin-top: 10px;text-align: right; font-size: 14px;font-weight: bold;"></div>
+                <div class = "col-sm-2" style="padding: 5px;float: right;">
+                    <div id="id_export" style="text-align:right;">
+                        <button style="float:right;" id="btnexport" type="button" class="btn btn-default"><span class="glyphicon glyphicon-export" aria-hidden="true"></span> Export</button>
+                    </div>
+                    <input type="button" class="btn btn-primary" id="id_load_btn" value="Load" style="width: 75px;float:right;{% if not conditions or 'worker_id' in conditions %}display:none;{% endif %}" />
+                </div>
+            </div>
+    </form>
+    <br>
+    </div>
+    <div id="gridCon">
+        <table datatable dt-options="dtOptions1" dt-columns="dtColumns1" dt-instance="dtInstance1" class="row-border hover"></table>
+    </div>
+</div>    
+
+<script type="text/javascript">
+    var title = '{{ title }}';
+    var report_code = '{{ code }}'
+    sparrow.setTitle(title);
+    var conditions = {{ conditions|safe }}
+    var query_value = {{ date_query_value|safe}}
+    // if($('#id_text_query').length != 0){
+    //     $('#id_text_query').val(query_value[$('#id_text_query').attr('name')]);
+    // }    
+
+    {% if not is_table %}
+        $('#id_export').hide()
+    {% endif %}
+    
+    if(Object.keys(query_value).length != 0){
+        var rangeFrom = query_value['from_date'];
+        var rangeTo = query_value['to_date'];;
+        var momentConfigStart = null;
+        var momentConfigEnd = moment();
+        if(rangeFrom == "today") {
+            momentConfigStart = moment();
+        }
+        else if(rangeFrom == "week") {
+            momentConfigStart = moment().subtract(6, 'days');
+        }
+        else if(rangeFrom == "month"){
+            momentConfigStart = moment().subtract(29, 'days');
+        }
+        else if(rangeFrom == "year"){
+            momentConfigStart = moment().subtract(364, 'days');
+        }
+    }
+
+    if($('#id_start_datepicker').length != 0){
+        function cb(start, end) {
+            $('#id_start_datepicker span').html(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+        }
+        $('#id_start_datepicker').daterangepicker({
+            startDate: momentConfigStart,
+            endDate: momentConfigEnd,
+            ranges: {
+               'Today': [moment(), moment()],
+               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+               'This Year': [moment().startOf('year'), moment().endOf('year')],
+               'Last Year': [moment().subtract(1, 'year').add(1,'day'), moment()],
+            }
+        }, cb);
+        cb(momentConfigStart, momentConfigEnd);
+    }
+    
+    var columns = '{{ columns|safe }}';
+
+    var data = {
+        'columns': columns,
+        'report_code': report_code,
+    }
+
+    if(report_code == 'rpt_group'){
+        data.rowGrouping = {'col': 0};
+    }
+
+    reportsInit(data);
+</script>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title ng-bind="pageTitle" ></title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/css3-loaders.css' %}?v=0.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/bootstrap.min.css' %}?v=2" />
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/line-icons.css' %}?v=2.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/custom.css' %}?v=2.3">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/jquery.dataTables.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/angular-datatables.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/angular-advanced-searchbox.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/datepicker.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/datepicker3.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/summernote.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/magicsuggest-min.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/colorpicker.css' %}?v=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/comments.css' %}?v=4.2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/daterangepicker.css' %}?v=0.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/jkanban.min.css' %}?v=0.1">
+
+    <style>
+      table.dataTable tbody tr {
+        background: rgba(255, 255, 255, 0.6);
+      }
+      a {
+          color: {{ link_color }};
+      }
+      a:hover{
+          color: {{ link_color }};
+      }
+      .bgimage-border{
+          border:5px solid #0000ff;
+      }
+      .back-btn {
+        cursor: pointer;
+      }
+      body {
+        background: #fff;
+      }
+      .container{
+        width: 98%;
+      }
+     /* #app_container {
+        height: 100% !important
+      }*/
+      .frame-dialog iframe {
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .frame-dialog .modal-dialog {
+          width: 98%;
+      }
+       .nav-tabs> li.active {
+         border-bottom: 3px solid {{ button_color }};
+      }
+      .btn-primary {
+          background: {{ button_color }};
+          border-color: {{ button_color }};
+      }
+
+      .btn-primary:hover {
+          background: {{ button_color }};
+          border-color: {{ button_color }};
+      }
+      .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+          border-radius: 0 !important;
+          background: none !important;
+          color: #000 !important;
+          border-bottom: 2px solid  {{ button_color }};
+      }
+      .details-footer{
+        width: 100%;
+        bottom: -10px;
+        position: fixed;
+      }
+    </style>
+  </head>
+
+  <body class="nav-md" ng-app="sparrow" ng-controller="mainController">
+    <span id="loading-image" class="ele-center loader loader-double"></span>
+    <!-- <img id="loading-image" class="ele-center" src="{% static 'base/images/spinner_68.gif' %}?v=2" alt="Loading..." /> -->
+
+     <div style="position: absolute; left: 50%;">
+        <div id="appMsg" style="position: relative; left: -50%;margin-top: 2px;z-index:9999;"></div>
+    </div>
+    <div class="container body">
+      <div class="main_container">
+        <!-- page content -->
+        <div class="row app-titlebar" id="app_container">
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div id="top_action_bar">
+              </div>
+            </div>
+
+          <div class="col-md-12 col-sm-12 col-xs-12" >
+            <div ng-view id="viewContainer" class="">
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+      </div>
+    </div>
+
+    <!-- <div id="iframe_model" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="iframe_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="iframe_title"></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="" id="iframe"></iframe>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div id="colReorder_model" class="modal fade" tabindex="-1" role="dialog" style="z-index: 2000;">
+      <div class="modal-dialog modal-lg" role="document" style="width: 17%;">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="colReorderModalLabel">Configure columns</h4>
+              </div>
+              <div id="colReorder_modal_body" class="modal-body">
+                  <div id="colReorder_form">
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="width: 85%">
+                          <div id="idColumnReorderDiv">
+
+                          </div>
+                        </td>
+                        <td>
+                            <div class="moveUpDownClass" style="font-size: 24px;">
+                                <i class="icon-arrow-2-circle-up" onclick="sparrow.configColumnMove('up');"></i>
+                                <i class="icon-arrow-2-circle-down" onclick="sparrow.configColumnMove('down');"></i>
+                            </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                <div style="margin-top: 10px;"><i>Check/uncheck to show/hide columns</i></div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                  <button class="btn btn-primary" id="saveOrder" onclick="sparrow.saveColumnConfig()" ng-disabled="btnDisabled">Save</button>
+                  <span id="reorderCallHidden" style="display: none;"></span>
+              </div>
+          </div>
+      </div>
+  </div>
+
+<!--
+  bundle.min.js contains following resources.
+
+  <script src="{% static 'base/js/jquery-1.11.2.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/jquery.scannerdetection.js' %}?v=2"></script>
+  <script src="{% static 'base/js/bootstrap.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/jquery.dataTables.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/fastclick.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/nprogress.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/angular.js' %}?v=0.9"></script>
+  <script src="{% static 'base/js/angular-route.min.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/angular-datatables.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/angular-modal-service.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/angular-sanitize.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/jquery.qrcode.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/bootstrap-datepicker.min.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/angular-advanced-searchbox-tpls.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/ui-bootstrap-tpls.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/jquery.validate.min.js' %}?v=0.9"></script>
+  <script src="{% static 'base/js/magicsuggest.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/summernote.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/angular-advanced-searchbox-tpls.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/angularjs-datetime-picker.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/moment.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/jquery.copy-to-clipboard.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/ng-file-upload.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/mousetrap.min.js' %}?v=2"></script>
+  <script src="{% static 'base/js/shortcuts.js' %}?v=2"></script>
+  -->
+
+
+    <script src="{% static 'base/js/bundle.min.js' %}?v=1.0"></script>
+    <script src="{% static 'base/js/magicsuggest.js' %}?v=0.5"></script>
+    <script src="{% static 'base/js/comments.js' %}?v=1.2"></script>
+    <script src="{% static 'base/js/tasks.js' %}?v=3.1"></script>
+    <script src="{% static 'base/js/attachments.js' %}?v=2.4"></script>
+    <script src="{% static 'base/js/subscriptions.js' %}?v=0.7"></script>
+    <script src="{% static 'base/js/ang_gsttax.js' %}?v=0.5"></script>
+    <script src="{% static 'base/js/custom.js' %}?v=3.7"></script>
+    <script src="{% static 'base/js/base.js' %}?v=12.07"></script>
+    <script src="{% static 'base/js/routes.js' %}?v=6.69"></script>
+    <script src="{% static 'baseimport/js/import.js' %}?v=5.1"></script>
+    <script src="{% static 'mails/js/mail_screen.js' %}?v=1.6"></script>
+    <script src="{% static 'base/js/daterangepicker.js' %}?v=0.2"></script>
+    <script src="{% static 'base/js/dragula.min.js' %}"></script>
+    <script src="{% static 'base/js/jkanban.min.js' %}?v=0.1"></script>
+    <script src="{% static 'base/js/Chart.min.js' %}"></script>
+    <script src="{% static 'base/js/jquery.signalR-2.2.0.min.js' %}"></script>
+    <script src="{% static 'base/js/moment-timezone-with-data.min.js' %}?v=0.1"></script>
+    <script src="{% static 'base/js/angular-advanced-searchbox-tpls.js' %}?v=0.7"></script>
+
+  </body>
+</html>
+
+<script type="text/javascript">
+      function listboxMove(listID, direction) {
+        var listbox = document.getElementById(listID);
+        var selIndex = listbox.selectedIndex;
+        var increment = -1;
+        if (direction == 'up')
+          increment = -1;
+        else
+          increment = 1;
+        if ((selIndex + increment) < 0 ||
+          (selIndex + increment) > (listbox.options.length - 1)) {
+          return;
+        }
+        var selValue = listbox.options[selIndex].value;
+        var selText = listbox.options[selIndex].text;
+        listbox.options[selIndex].value = listbox.options[selIndex + increment].value
+        listbox.options[selIndex].text = listbox.options[selIndex + increment].text
+        listbox.options[selIndex + increment].value = selValue;
+        listbox.options[selIndex + increment].text = selText;
+        listbox.selectedIndex = selIndex + increment;
+      }
+
+      function saveColumnOrder(){
+        var colOrder = [];
+        var tableColIndex = parseInt($('#lstReorderCol').attr('index'));
+        $("#lstReorderCol option").each(function(){
+          colOrder.push(parseInt($(this).val()));
+        })
+
+        var url = window.location.href.split("/#")[1];
+        var digitRegx = /[0-9]/g;
+        var newUrl = url.replace(digitRegx,'');
+        var postData = {
+          colOrder: colOrder.join([separator = ',']),
+          url : newUrl,
+          tableColIndex: tableColIndex
+        }
+        console.log(postData);
+
+        sparrow.post("/base/set_col_order/", postData, false, function(data) {
+          if(data.code == 0){
+            console.log(data.msg);
+          }
+          else{
+            $('#colReorder_model').modal('hide');
+            location.reload();
+          }
+        })
+      }
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<div>	
+	<div style="float: left;width: 20%">
+		<div>
+			<button onclick="exportData()">Export data</button>
+			<button onclick="uncheckAll()">Uncheck all</button>
+			
+		</div>
+		<table style="margin-top: 10px;">
+	 		{% for content in contents %}
+				<tr>
+					<td><input type="checkbox" checked="checked"  value="{{content}}"></td>
+	 				<td>{{content}}</td>
+	 	
+	 			</tr>
+	  		{% endfor %}
+		</table>	
+	</div>	 	
+	<div>		
+		<textarea cols="150" rows="15" id="id_queries" style="padding-right: 50;float: right; width: 70%; height: 755px;" ></textarea>
+	</div>
+</div>
+	
+<script type="text/javascript">
+function exportData() {
+	var checks = $('input[type="checkbox"]:checked').map(function(){
+		return $(this).val();
+	}).get()
+    console.log(checks);
+    checks = JSON.stringify(checks)
+	$.ajax({
+		dataType: "json",
+	    type: "POST",
+    	url: "/base/exportdata/",
+    	data: { 'tables' :  checks},
+    	success: function(result){
+        	console.log(result);
+        	$("#id_queries").val(result);
+    	}
+	});
+}
+var uncheckAll = function(){
+	$('input:checkbox').removeAttr('checked');
+}
+</script>
+</html>

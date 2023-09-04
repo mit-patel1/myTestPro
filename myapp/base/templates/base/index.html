@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title ng-bind="pageTitle" ></title>
+    {% load staticfiles %}
+    <link rel="icon" type="image/png" href="{% static 'base/images/sparrow-logo-b.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/css3-loaders.css' %}?v=0.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/bootstrap.min.css' %}?v=2" />
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/line-icons.css' %}?v=2.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/jquery.dataTables.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/angular-datatables.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/angular-advanced-searchbox.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/datepicker.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/datepicker3.min.css' %}?v=2">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/summernote.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/magicsuggest-min.css' %}?v=2.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/colorpicker.css' %}?v=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/comments.css' %}?v=4.5">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/daterangepicker.css' %}?v=0.1">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/dragula.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/jkanban.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/fullcalendar.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'base/css/custom.css' %}?v=2.5">
+
+    <script type="text/javascript">
+      var globalIndex = {
+          iframeCloseCallback : []
+      }
+    </script>
+
+    <style>
+      {% if not launcher and bg_image == None %}
+        .nav_menu{
+          background: #FFFFFF;
+          border-bottom: 1px solid #D9DEE4;
+        }
+      {% endif %}
+
+      {% if launcher and bg_image %}
+        .nav_menu{
+          border-bottom: 0px !important;
+        }
+      {% endif %}
+
+      {% if bg_image != None %}
+      body{
+          background: url({{ bg_image_url }}) no-repeat center center fixed;
+          -webkit-background-size: cover;
+          -moz-background-size: cover;
+          -o-background-size: cover;
+          background-size: cover;
+          opacity: 1;
+      }
+      .nav_title
+      {
+          background: none;
+      }
+      .nav.side-menu> li.active > a
+      {
+          background: none;
+      }
+
+      table.dataTable tbody tr
+      {
+        background: rgba(255, 255, 255, 0.6);
+      }
+        {%  if is_white_bg_image %}
+            .nav.side-menu> li > a:hover{
+                color: #000000 !important;
+            }
+            .nav.side-menu>li>a, .nav.child_menu>li>a, #basePageTitle{
+                color: #000000;
+            }
+            .nav li li.current-page a{
+                color: #000000;
+            }
+            .nav li li.current-page, .nav.child_menu li:hover, .nav.child_menu li.active{
+                background-color: rgba(0, 0, 0, 0.06);
+            }
+            .nav-md ul.nav.child_menu li:after{
+                border-left: 1px solid #000000;
+            }
+            .nav-md ul.nav.child_menu li:before{
+                background: #000000;
+            }
+        {% else %}
+            .nav.side-menu> li > a:hover{
+                color: #ffffff !important;
+            }
+            .nav.side-menu>li>a, .nav.child_menu>li>a, #basePageTitle{
+                color: #ffffff;
+            }
+            .nav li li.current-page a{
+                color: #ffffff;
+            }
+            .nav li li.current-page, .nav.child_menu li:hover, .nav.child_menu li.active{
+                background-color: rgba(255, 255, 255, 0.06);
+            }
+            .nav-md ul.nav.child_menu li:after{
+                border-left: 1px solid #ffffff;
+            }
+            .nav-md ul.nav.child_menu li:before{
+                background: #ffffff;
+            }
+        {% endif %}
+      {% else %}
+      body{
+          background:{{ bg_color }};
+      }
+      .nav_title
+      {
+          background:{{ bg_color }};
+      }
+      .nav.side-menu> li.active > a
+      {
+          background:{{ bg_color }};
+      }
+      {% endif %}
+
+      .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+       border-radius: 0 !important;
+      background: none !important;
+      color: #000 !important;
+      border-bottom: 2px solid  {{ button_color }};
+      }
+
+      .nav-tabs> li.active {
+         border-bottom: 3px solid {{ button_color }};
+      }
+
+      .btn-primary
+      {
+          background: {{ button_color }};
+          border-color: {{ button_color }};
+      }
+      .icon-primary
+      {
+          color : {{ button_color }};
+      }
+      .header_back
+      {
+        font-size: 22px;
+        margin-top: 1px;
+        cursor: pointer;
+        margin-left: -15px;
+        color: {{ button_color }};
+      }
+      .btn-primary:hover
+      {
+          background: {{ button_color }};
+          border-color: {{ button_color }};
+      }
+      .btn-primary:active:hover, .btn-primary:focus , .btn-primary:active{
+          background: {{ button_color }};
+          border-color: {{ button_color }};
+      }
+      a{
+          color: {{ link_color }};
+      }
+      a:hover{
+          color: {{ link_color }};
+      }
+
+      .bgimage-border{
+          border:5px solid #0000ff;
+      }
+      #dmi_table_data th{
+        background:{{ bg_color }};
+        color: #ffffff;
+      }
+      .topbarIcons {
+        color: #7a7979;
+        margin: 0px 5px 0px 5px;
+      }
+
+      .count-info {
+        padding: 14px 0px 10px 0px !important;
+      }
+      .classCount {
+        font-size: 11px;
+        position: relative;
+        left: -10px;
+        bottom: 8px;
+        height: 17px;
+        width: 17px;
+        display: inline-block;
+        border-radius: 3px;
+        padding: 0;
+        text-align: center;
+        color: #fff;
+      }
+      .notification_indicator {
+        left: -14px;
+      }
+      #task_name{
+        font-size: 12px;
+      }
+      #basePageTitle {
+        font-size: 19px;
+        margin-top: 0px;
+        margin-bottom: 4px;
+      }
+      #pageParentMenu {
+        font-size: 11px;
+        color: #000000;
+        font-weight: 500;
+        height: 16px;
+      }
+      .sparrow-wrap {
+        margin-top: 14px;
+        cursor: pointer;
+      }
+      .release-note {
+        cursor: pointer;
+        margin-top: 14px;
+        margin-right: 10px;
+      }
+      .has-release {
+        color: #f20000;
+        float: right;
+        margin-top: -3px;
+        font-size: 18px !important;
+        display: none;
+      }
+      .back-btn {
+        cursor: pointer;
+      }
+      .favourite-cancel {
+        margin-right: 3px;
+      }
+
+      .submenuLevel1 ul li {
+        padding-left: 10px !important;
+      }
+
+      .submenuLevel1 ul li:before {
+        left: 5px !important;
+        background: #61707d !important;
+      }
+      .submenuLevel1 ul li:after {
+        left: 8px !important;
+        border-left: 1px solid #61707d !important;
+      }
+      .frame-dialog iframe {
+          width: 100%;
+          height: 100%;
+          border: 0;
+      }
+      .frame-dialog .modal-dialog {
+          width: 98%;
+      }
+
+      #leftmenu::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      #leftmenu::-webkit-scrollbar-track {
+          border: none;
+          {% if bg_image == None %}
+            background:{{ bg_color }};
+          {% endif %}
+      }
+      #leftmenu::-webkit-scrollbar-thumb {
+        border: none;
+      }
+      #leftmenu:hover::-webkit-scrollbar-thumb{
+        border-radius: 2px;
+        border: 1px solid #aaa;
+        background: #e4e4e4;
+      }
+
+      .advancedSearchBox .dropdown-menu{
+          font-size: 14px;
+          width: 97%;
+      }
+      .advancedSearchBox .pref-srctxt{
+        color: #ccc;
+      }
+
+
+      .o_app_switcher_background {
+      background-color: #364760;
+      background: -webkit-gradient(linear, left top, right bottom, from(#77717e), to(#364760));
+    }
+    .o_app_switcher_background:not(.o_app_switcher_background_custom) .o_main_navbar{
+      background-color: transparent;
+      border-color: transparent;
+    }
+    .o_main_navbar{
+      position: relative;
+      height: 46px;
+      color: white;
+    }
+    .o_main_navbar > a, .o_main_navbar > button {
+      float: left;
+      padding: 0 12px 0 16px;
+      color: inherit;
+      font-size: 22px;
+      margin-top: 15px;
+    }
+      .o_main_navbar > ul {
+        display: block;
+        float: left;
+        margin: 5px;
+        padding: 0;
+        list-style: none;
+      }
+      .o_main_navbar > ul.o_menu_systray {
+        float: right;
+      }
+      .o_main_navbar > ul > li {
+        position: relative;
+        display: block;
+        float: left;
+      }
+      #parentMenuNameId{
+        position: relative;
+        bottom: 3px;
+        left: 1px;
+        cursor: pointer;
+      }
+      #hideCol{
+        border-left: 1px solid #8e8b8bdb;
+        border-top: 1px solid #8e8b8bdb;
+        border-bottom: 1px solid #8e8b8bdb;
+      }
+      {% if launcher %}
+      .launcherHeaderMenu{
+        color: #ffffff;
+      }
+      {% endif %}
+
+      .nav .open>a, .nav .open>a:focus, .nav .open>a #avatar:hover{
+        background-color: transparent !important;
+      }
+      .companyImgClass{
+        max-height: 45px;
+        max-width: 70%;
+      }
+
+      #idColumnReorderDiv .selectedConfigColumn > .configColumnLabel,
+      #idColumnReorderDiv .configColumnLabel:hover{
+        background: linear-gradient(#0095ff, #0095ff);
+        color: #ffffff;
+      }
+      #idColumnReorderDiv .configColumn{
+        margin-bottom: 10px;
+      }
+      .moveUpDownClass, .configColumnLabel{
+        cursor: pointer;
+      }
+      .configColumnLabel{
+        padding: 5px;
+      }
+
+  </style>
+
+  <!-- bundle.min.js contains following resources. -->
+<!--
+  <script src="{% static 'base/js/jquery-1.11.2.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/bootstrap.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/jquery.dataTables.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/fastclick.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/nprogress.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/angular.js' %}?v=0.9"></script>
+  <script src="{% static 'base/js/angular-route.min.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/angular-datatables.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/angular-modal-service.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/angular-sanitize.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/jquery.qrcode.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/bootstrap-datepicker.min.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/ui-bootstrap-tpls.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/jquery.validate.min.js' %}?v=0.9"></script>
+  <script src="{% static 'base/js/magicsuggest.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/summernote.min.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/angular-advanced-searchbox-tpls.js' %}?v=0.4"></script>
+  <script src="{% static 'base/js/angularjs-datetime-picker.js' %}?v=0.2"></script>
+  <script src="{% static 'base/js/moment.min.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/jquery.copy-to-clipboard.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/ng-file-upload.js' %}?v=0.1"></script>
+  <script src="{% static 'base/js/mousetrap.min.js' %}?v=2"></script>
+  <script src="{% static 'base/js/shortcuts.js' %}?v=2"></script>
+  <script src="{% static 'base/js/jquery.scannerdetection.js' %}?v=2"></script>
+    -->
+<!--    <script src="{% static 'base/js/moment.min.js' %}?v=0.2"></script> -->
+
+
+    <script src="{% static 'base/js/bundle.min.js' %}?v=1.5"></script>
+    <script src="{% static 'base/js/moment-timezone-with-data.min.js' %}?v=0.2"></script>
+    <script src="{% static 'base/js/base.js' %}?v=12.07"></script>
+    <script src="{% static 'base/js/angular-advanced-searchbox-tpls.js' %}?v=0.6"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSoCBuAOBAwfzagf0L2bdENevS4zkGVLc&libraries=places"></script>
+
+  </head>
+  {% if launcher %}
+  <body class="main-body launcherBody nav-sm" ng-app="sparrow" ng-controller="mainController" style="margin-left: -74px;">
+  {% else %}
+  <body class="nav-md main-body " ng-app="sparrow" ng-controller="mainController">
+  {% endif %}
+    <span id = "id_launcher" style="display: none;">{{launcher}}</span>
+    <span id="loading-image" class="ele-center loader loader-double"></span>
+    <!-- <img id="loading-image" class="ele-center" src="{% static 'base/images/spinner_68.gif' %}?v=2" alt="Loading..." /> -->
+
+     <div style="position: absolute; left: 50%;">
+        <div id="appMsg" style="position: relative; left: -50%;margin-top: 2px;z-index:9999;"></div>
+    </div>
+
+    <div class="container body" style="width: 100%">
+      <div class="main_container">
+      {% if not launcher %}
+        <div id="leftmenu" class="col-md-3 left_col full_height menuscroll" style="height:100%;overflow-x: hidden;overflow-y: auto;">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0; text-align: center;">
+              {% if is_white_bg_image %}
+              <a href="/#/" class="site_title toggle_menu"><img src="{% if company_img != None %}data:image/png;base64,{{ company_img }}{% else %}{% static 'base/images/logo-b.png' %}?v=2{% endif %}" align="middle" class="companyImgClass"><!-- <img src="{% static 'base/images/text-b.png' %}?v=2" style="height:30px;"> --></a>
+              {% else %}
+              <a href="/#/" class="site_title toggle_menu"><img src="{% if company_img != None %}data:image/png;base64,{{ company_img }}{% else %}{% static 'base/images/logo-w.png' %}?v=2{% endif %}" align="middle" class="companyImgClass" ><!-- <img src="{% static 'base/images/text-wh.png' %}?v=2" style="height:30px;"> --></a>
+               {% endif %}
+              <div class="nav toggle icon-hamb-menu drawer-icon-menu1 toggle_menu">
+                {% if launcher %}<a id="launcher_toggle_id">{% else %}<a id="menu_toggle">{% endif %}<i class="icon-hamburger-menu-2"></i></a>
+              </div>
+              <div class="icon-hamb drawer-icon-menu2" style="display: none;margin-top:15px;float: left;padding-left: 10px;">
+                {% if launcher %}<a id="launcher_toggle_id">{% else %}<a id="header_menu_toggle" style="color: white">{% endif %}<i  class="icon-hamburger-menu-2"></i></a>
+              </div>
+            </div>
+
+
+            <div class="clearfix"></div>
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" >
+              <div class="menu_section active">
+
+                <ul id="menuContainer" class="nav side-menu">
+
+                <!-- <ul class="nav side-menu">
+                  {% for p_menu in main_parent_menu %}
+                      <li><a><i class="{{ p_menu.icon }}" style="padding-right: 7px;"></i> {{ p_menu.name }} <span class="icon-arrow-1-down iconMove style="float: right;margin-top: 7px;margin-right: 3px;font-size: 9px;"></span></a>
+                          <ul class="nav child_menu" style="display:none;">
+                          {% for c_menu in main_child_menu %}
+                              {% if c_menu.parent_id.id == p_menu.id %}
+                                <li class="sidebarChilemenu" refrence="{{c_menu.name}}"><a {% if c_menu.on_click != '' %} onclick="{{ c_menu.on_click|safe }}" {% endif %} href="{{ c_menu.url|safe }}">{{ c_menu.name }}</a></li>
+                              {% endif %}
+                          {% endfor %}
+                          </ul>
+                      </li>
+                  {% endfor%}
+                  <li>
+                    <div style="color: #c1c1c1;padding: 20px;"><a style="color: #c1c1c1;" target="_blank" href="http://www.sparrowerp.com">
+                    <span id="poweredby">Powered by sparrow&nbsp;&nbsp;<img src="/static/base/images/logo-wh-16px.png"></span></a></div>
+                  </li> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+
+            <nav role="navigation" >
+              <div class="favourite_page child_menu_link" {% if launcher %} style="display: none;" {% endif %}>
+                {% for favoriteView in favoriteViews %}
+                   <div class="fav_page" id = "favoritePage{{favoriteView.id}}">
+                    <div class="label label-warning" style="background-color:{{ button_color }}">
+                      <a class="fav-title" href="{{favoriteView.url}}">
+                        <span title= "{{favoriteView.name}}">{{favoriteView.name}}</span>
+                      </a>
+                      <span refrence= "{{favoriteView.id}}" class="icon-cancel-circle favourite-cancel" title="Remove bookmark"></span>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" id="avatar" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    {% if profile_image %}
+                    <img src="{{profile_image}}" style="margin-right: 1px;" />
+                    {% else %}
+                    <span class=" icon-user"></span>
+                    {% endif %}<span class="launcherHeaderMenu">{{user_full_name}}</span>
+                    <span class="icon-arrow-1-down iconMovelauncherHeaderMenu"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right" style="width:150px;">
+                    </li>
+                    <li>
+                      <a class="child_menu_link" href="/b/#/accounts/profile"><i class="icon-user pull-right"></i> Profile</a>
+                      {% if app_eda == 'False' %}
+                      <a href="/b/#/accounts/submit_sparrow_issue/"><i class="icon-7-support-1 pull-right"></i> Support</a>
+                      {% endif %}
+                      <a href="/accounts/signout/"><i class="icon-outside pull-right"></i> Sign Out</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <div class="sparrow-wrap" style="display: none;">
+                    <a href="" target="_blank" title="Sparrow knowledge base" id="id_help" class="launcherHeaderMenu"><!-- <span style="font-size: 16px;" class="icon-info" aria-hidden="true"> --><!-- </span> --> Help</a>
+                  </div>
+                </li>
+                <li id="id_notification_view">
+                  <a class="count-info child_menu_link" title="Notification" href="/b/#/messaging/notifications/">
+                    <i class="topbarIcons icon-notification launcherHeaderMenu"></i> <span {% if user_notification_count > 0 %} style="background-color: red;" {% endif %} class=" {% if total_count %} label-primary notification_indicator classCount {% endif %}" id="notification_count">{% if total_count != 0 %}{{ total_count }}{% endif %} </span>
+                  </a>
+                </li>
+                <!-- <li id="id_task_view" style="margin-right: 5px;" >
+                  <a class="count-info child_menu_link"  href="/b/#/task/tasks/" title="Task">
+                    <span id="idIndexTaskCount" style="display: none;">{{task_count}}</span>
+
+                    <i class="topbarIcons icon-tasks-1 launcherHeaderMenu"></i><span class="launcherHeaderMenu" id="task_name"></span><span class="{% if task_count %} btn-primary classCount {% endif %}" id="task_count">{% if task_count != 0 %}{{task_count}}{% endif %}</span>
+                  </a>
+                </li>
+               <li class="li-mn-search" style="margin-right: 10px;margin-top: 4px;">
+                  <form autocomplete="off">
+                    <nit-advanced-searchbox ng-model="searchParams98" parameters="availableSearchParams98" index = "98" placeholder="Search any order, products.."  parameters-display-limit="9"> </nit-advanced-searchbox>
+                  </form>
+                </li> -->
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+
+        <!-- /top navigation -->
+
+        <!-- page content -->
+
+        <div class="right_col" role="main" {% if launcher %} style="display: none;" {% endif %} >
+          <div>
+            <div class="row app-titlebar">
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="page-title">
+                  <div class="title_left">
+                    <div id="pageParentMenu"></div>
+                    <h3 id="basePageTitle" ng-bind="pageTitle" style="color: #000000;" ></h3>
+                    <div id="titlebarPH" style="display: inline-block"></div>
+                    <i class="main-page-fav glyphicon glyphicon-star-empty favourite_icon" title="Bookmark this page" style="vertical-align: 0px"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6 col-xs-6">
+                <div id="top_action_bar">
+                </div>
+              </div>
+            </div>
+
+            <div class="row x_panel" id="app_container" >
+              <div class="col-md-12 col-sm-12 col-xs-12" style="padding-right: 5px !important" >
+                <div ng-view id="viewContainer" class="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- /page content -->
+
+      </div>
+    </div>
+     {% if launcher %}
+     <div style="width: 100%;">
+       <div class="main_menus" >
+
+          <script type="text/javascript">
+              function hideShowMenu(){
+                var currentUrl = window.location.href ;
+                var current_project_url = '#'+currentUrl.split('#')[1];
+
+                var curr_char1 = current_project_url.substr(-1);
+                if(curr_char1 == '/'){
+                  current_project_url = current_project_url.slice(0, -1);
+                }
+
+                if(current_project_url != '#') {
+                    $('.main_menus').hide();
+                    $('.page_content').show();
+                    $('.nav_menu').css("background-color", "#ffffff");
+                    $('.favourite_page').css("display", "inline-block");
+                    $('#launcher_toggle_id').show();
+                    $('.right_col').removeAttr('style');
+                    $('.main-body').removeClass('launcherBody');
+                    $('.launcherHeaderMenu').css('color', '#515356');
+                    var parentId = sparrow.getStorage(sparrow.global.keys.LAUNCHER_MENU);
+                    $('.sec_option'+parentId).show();
+                }
+              }
+              hideShowMenu();
+          </script>
+
+          {% for p_menu in menu_context %}
+          {% if  p_menu.child_menus|length > 0  or  p_menu.url != '' %}
+            <div class="menuitem" href="">
+              <div class="app_icon" onclick="iconClick('{{ p_menu.menu_code }}','{{p_menu.id}}')" style="cursor: pointer;"><i class=" {{ p_menu.icon }}" style="color: white;"></i></div>
+
+              <div class="caption_text" style="display: inline-block;">{{ p_menu.name }}</div>
+
+              <div class="dropdown" style="display: inline-block;">
+                  {% if p_menu.child_menus|length > 0 %}
+                  <a class=" dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                      <span class="icon-arrow-1-down menu_icons" id="dropdown_icon_{{ p_menu.id }}"></span>
+                  </a>
+                  {% endif %}
+                  <ul class="dropdown-menu launcherDropdownMenu" role="menu" aria-labelledby="menu1">
+                      {% for c_menu in p_menu.child_menus %}
+                          {% if c_menu.parent_id_id == p_menu.id and not c_menu.is_master %}
+                          <li><a class="child_menu_link" parentnameRefrence="{{p_menu.name}}" parentRefrence="{{p_menu.id}}"  href="{{ c_menu.url|safe }}">{{c_menu.name}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+                  </ul>
+              </div>
+            </div>
+            {% endif %}
+
+          {% endfor%}
+         </div>
+      </div>
+      <script type="text/javascript">
+        var iconBackground = ['#00cc99','#996633','#666699','#ffa366','#b3cccc','#adad85','#a3a3c2','#8cd98c','#8080ff','#ff80ff','#c65353','#999966']
+
+          $.each($('.app_icon'),function(index){
+            $(this).css('background',iconBackground[index]);
+          });
+
+      </script>
+    {% endif %}
+    <!-- <div id="iframe_model" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="iframe_close"  class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="iframe_title"></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe src="" id="iframe"></iframe>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+  <div id="colReorder_model" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document" style="width: 17%;">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="colReorderModalLabel">Configure columns</h4>
+              </div>
+              <div id="colReorder_modal_body" class="modal-body">
+                  <div id="colReorder_form">
+                    <table style="width: 100%">
+                      <tr>
+                        <td style="width: 85%">
+                          <div id="idColumnReorderDiv">
+
+                          </div>
+                        </td>
+                        <td>
+                            <div class="moveUpDownClass" style="font-size: 24px;">
+                                <i class="icon-arrow-2-circle-up" onclick="sparrow.configColumnMove('up');"></i>
+                                <i class="icon-arrow-2-circle-down" onclick="sparrow.configColumnMove('down');"></i>
+                            </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                <div style="margin-top: 10px;"><i>Check/uncheck to show/hide columns</i></div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                  <button class="btn btn-primary" id="saveOrder" onclick="sparrow.saveColumnConfig()" ng-disabled="btnDisabled">Save</button>
+                  <span id="reorderCallHidden" style="display: none;"></span>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+  <script src="{% static 'base/js/comments.js' %}?v=1.2"></script>
+  <script src="{% static 'base/js/tasks.js' %}?v=3.4"></script>
+  <script src="{% static 'base/js/attachments.js' %}?v=2.4"></script>
+  <script src="{% static 'base/js/subscriptions.js' %}?v=0.7"></script>
+
+  <script src="{% static 'base/js/custom.js' %}?v=3.8"></script>
+  <script src="{% static 'base/js/routes.js' %}?v=6.69"></script>
+  <script src="{% static 'baseimport/js/import.js' %}?v=5.3"></script>
+  <script src="{% static 'mails/js/mail_screen.js' %}?v=1.7"></script>
+  <script src="{% static 'base/js/daterangepicker.js' %}?v=0.3"></script>
+  <script src="{% static 'base/js/dragula.min.js' %}"></script>
+  <script src="{% static 'base/js/jkanban.min.js' %}"></script>
+  <script src="{% static 'base/js/fullcalendar.min.js' %}"></script>
+  <script src="{% static 'base/js/Chart.min.js' %}"></script>
+    <script type="text/javascript">
+      var launcher = $('#id_launcher').text();
+      if (launcher == 'True'){
+            hideShowMenu();
+            $('.child_menu_link, #launcher_back_id, .header_back').click(function (){
+                  var parentnameRefrence = $(this).attr('parentnameRefrence');
+                  $('#pageParentMenu').text(parentnameRefrence);
+                  var parentRefrence = $(this).attr('parentRefrence');
+                  $('.nav_menu').css("background-color", "#ffffff");
+                  $('.header_back').removeAttr('style', 'color','#ffffff');
+                  $('.right_col').removeAttr('style');
+                  $('.page_content').show();
+                  $('.right_col').show();
+                  $('.favourite_page').css("display", "inline-block");
+                  $('.main_menus').hide();
+                  $('.sec_option'+parentRefrence).show();
+                  $('#launcher_toggle_id').show();
+                  $('.o_main_navbar').css("background-color", "#fff");
+                  $('.back-btn').removeAttr('style', 'margin-left','-45px');
+                  $('.main-body').removeClass('launcherBody');
+                  $('.launcherHeaderMenu').css('color','#515356');
+                  sparrow.setStorage(sparrow.global.keys.LAUNCHER_MENU, parentRefrence);
+                  hideShowMenu();
+            });
+
+
+
+            $('#launcher_toggle_id').click(function (){
+                window.location.href = "/b/#";
+                $(this).hide();
+                $('.page_content').hide();
+                $('.right_col').hide();
+                $('.favourite_page').hide();
+                $('.main_menus').show();
+                $('.sec_menu_option').hide();
+                $('.header_back').css( 'color','#ffffff');
+                // $('.back-btn').css('margin-left','-45px');
+                $('.nav_menu').removeAttr("style","background-color", "#ffffff");
+                $('.o_main_navbar').css("background-color", "#2A3F54");
+                $('.main-body').addClass('launcherBody');
+                $('.launcherHeaderMenu').css('color', '#ffffff');
+
+
+            });
+
+          function iconClick(menu_code,parent_menu_id){
+            $('.sec_option'+parent_menu_id).show();
+            $('.main-body').removeClass('launcherBody');
+            $('.nav_menu').css("background-color", "#ffffff");
+            $('.header_back').removeAttr('style', 'color','#ffffff');
+            $('.right_col').removeAttr('style');
+            $('.page_content').show();
+            $('.right_col').show();
+            $('.favourite_page').css("display", "inline-block");
+            $('.main_menus').hide();
+            $('#launcher_toggle_id').show();
+            $('.o_main_navbar').css("background-color", "#fff");
+            $('.launcherHeaderMenu').css('color','#515356');
+            sparrow.setStorage(sparrow.global.keys.LAUNCHER_MENU, parent_menu_id);
+
+            if(menu_code == 'crm'){
+              window.location.href = '/b/#/campaign/subscriber_lists/';
+            }
+          }
+        }
+        else{
+            var menu = {{ vertical_menu|safe }};
+            var menuHTML = '';
+            // myLoop(menu);
+            appendMeu($("#menuContainer"), menu, 0);
+            $('#menuContainer').append('<li>\
+                   <div style="color: #c1c1c1;padding: 20px;"><a style="color: #c1c1c1;" target="_blank" href="">\
+                   <span id="poweredby" class="toggle_menu">Powered by sparrow&nbsp;&nbsp;<img src="/static/base/images/logo-wh-16px.png"></span></a></div>\
+                 </li>');
+
+            function appendMeu(parent, menu, level) {
+                for(var i = 0;i < menu.length; i ++) {
+                    if(menu[i][menu[i]['id']].length <= 0 && menu[i]['parent_id_id'] == 0 && menu[i].url == '' ){
+                      continue;
+                    }
+
+                    var onClick ='';
+                    var href = '';
+                    var icon = '';
+                    if(menu[i].on_click != '') {
+                      onClick = 'onclick="'+ menu[i].on_click +'"';
+                    }
+                    if(menu[i].url != ''){
+                      href = 'href="' + menu[i].url +'"';
+                    }
+                    if(menu[i].icon != ''){
+                      icon = '<i class="'+menu[i].icon+'" style="padding-right: 7px;"></i>'
+                    }
+                    var parent_menu = '<a '+href+'>'+menu[i].name+'</a>';
+                    if(menu[i]['is_master'] || menu[i][menu[i]['is_master']]){
+                      continue;
+                    }
+                    else{
+                      if(menu[i][menu[i]['id']] != undefined && menu[i][menu[i]['id']].length > 0 ) {
+                        if(level==1){
+                          parent_menu ='<a class="sub-move-icon" '+href+'>\
+                                   '+icon+'<span class="toggle_menu"> '+menu[i].name+' \
+                                   <i class="icon-arrow-1-down" style="float: right;margin-top: 7px;right: 3px;font-size: 9px;"  id = '+ menu[i].name +'>\
+                                   </i>\
+                                 </a>';
+                        }
+                        else{
+                          parent_menu ='<a class="move-icon" '+href+'>\
+                                   '+icon+'<span class="toggle_menu"> '+ menu[i].name +' \
+                                   <i class="icon-arrow-1-down " style="float: right;margin-top: 7px;right: 3px;font-size: 9px;" id = '+ menu[i].name +' >\
+                                   </i>\
+                                 </a>';
+                        }
+                      }
+
+                      else if(menu[i][menu[i]['id']].length == 0 && menu[i]['parent_id_id'] == 0 && href != '' ) {
+                        parent_menu = '<a class="pure-parent" '+onClick+' '+href+'>\
+                                   '+icon+'<span class="toggle_menu"> '+menu[i].name+' \
+                                 </a>';
+
+                      }
+                    }
+                    var submenu = parent.append('<li>' + parent_menu + '</li>')
+                        .find("li:last");
+
+                    if(menu[i][menu[i]['id']] != undefined && menu[i][menu[i]['id']].length > 0) {
+                        submenu = submenu.append('<ul style="display:none;" class="nav child_menu submenuLevel' + (level + 1) + '"></ul>').find("ul");
+                        appendMeu(submenu, menu[i][menu[i]['id']], level + 1);
+                    }
+                }
+            }
+
+            setTimeout(function(){
+              try{
+                if($('.menu_section').find('li').hasClass("active") && $('.menu_section').find('i.icon-arrow-1-down').length >=1){
+                  for(var i = 0;i < menu.length; i ++){
+                    var dynamic_id = menu[i].name.split(" ")[0]
+                    if($( "#" + dynamic_id ).parent().parent().hasClass("active")){
+                      $('#' +  dynamic_id).removeClass('icon-arrow-1-down').addClass('icon-arrow-1-up');
+                    }
+                    for(var j = 0 ; j < menu[i][menu[i]['id']].length;j++ ){
+                      var dynamic_sub_id = (menu[i][menu[i]['id']][j].name.split(" ")[0])
+                      if($("#" + dynamic_sub_id ).parent().parent().hasClass("active")){
+                        $('#' + dynamic_sub_id).removeClass('icon-arrow-1-down').addClass('icon-arrow-1-up');
+                      }
+                    }
+                  }
+                }
+              }catch(error){
+                console.log(error.message)
+              }
+            });
+
+            $('.move-icon').click(function(){
+              if($('.menu_section').find('li').hasClass("") && $('.menu_section').find('i.icon-arrow-1-up').length >=1){
+                $('i.icon-arrow-1-up').removeClass('icon-arrow-1-up').addClass('icon-arrow-1-down');
+              }
+
+              if($(this).find('i.icon-arrow-1-down').length ==1 && $(this).parent().hasClass("")){
+                $(this).find('i.icon-arrow-1-down').removeClass('icon-arrow-1-down').addClass('icon-arrow-1-up');
+              }
+              else{
+                $(this).find('i.icon-arrow-1-up').removeClass('icon-arrow-1-up').addClass('icon-arrow-1-down');
+              }
+
+            });
+
+            $('.sub-move-icon').click(function(){
+                if($(this).find('i.icon-arrow-1-down').length ==1 && $(this).parent().hasClass("")){
+                $(this).find('i.icon-arrow-1-down').removeClass('icon-arrow-1-down').addClass('icon-arrow-1-up');
+              }
+              else{
+                $(this).parent().addClass("active");
+                $(this).find('i.icon-arrow-1-up').removeClass('icon-arrow-1-up').addClass('icon-arrow-1-down');
+              }
+            });
+      }
+
+        var avatar = '{{avatar}}';
+        if(avatar == '' || avatar == undefined){
+          $('#avatar').attr('style','margin-top:5px');
+        }
+    </script>
+  </body>
+</html>
